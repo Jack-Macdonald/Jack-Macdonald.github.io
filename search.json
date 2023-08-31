@@ -1,12 +1,5 @@
 [
   {
-    "objectID": "Assignments.html",
-    "href": "Assignments.html",
-    "title": "Assignments",
-    "section": "",
-    "text": "Assignment One\nAssignment Two\nAssignment Three\nAssignment Four\nAssignment Five\nAssignment Six\nDatabase Project"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Jack Macdonald",
@@ -18,6 +11,13 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "I am a masters student at the University of Texas at Dallas studying data science and social data analytics.\nI graduated with a degree in Political Science from UTD in the fall of 2022 and continued working on my masters degree.\nThis site is currently being used to post assignments for a class, if you found this outside of that reason, congrats. You found me."
+    "text": "I am a masters student at the University of Texas at Dallas studying data science and social data analytics.\nI graduated with a degree in Political Science from UTD in the fall of 2022 and continued working on my masters degree."
+  },
+  {
+    "objectID": "DataVisualization.html",
+    "href": "DataVisualization.html",
+    "title": "Data Visualization",
+    "section": "",
+    "text": "Database Project"
   }
 ]
