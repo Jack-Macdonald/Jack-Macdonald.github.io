@@ -81,6 +81,6 @@
     "href": "posts/Data Vis Proposal/index.html",
     "title": "Data Visualization Proposal",
     "section": "",
-    "text": "Proposal Slides\n\n\n\nMap Demo\n\n\n\n\nAttaching package: 'rmdexamples'\n\n\nThe following object is masked _by_ '.GlobalEnv':\n\n    kmeans_cluster\n\n\nPhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.\n\n\nShiny applications not supported in static R Markdown documents"
+    "text": "Proposal Slides"
   }
 ]
