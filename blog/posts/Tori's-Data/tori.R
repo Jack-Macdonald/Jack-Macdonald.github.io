@@ -4,6 +4,7 @@
 library(readJDX)
 library(plotly)
 library(ggplot2)
+library(xml2)
 
 ######################################################
 ## I am not entirely sure what needs to be graphed  ##                 
@@ -37,4 +38,25 @@ imaginary_plot <- plot_ly(imagine, x = 0, y = ~y, z = ~x*(-1), type = 'scatter3d
 
 combined_plot <- subplot(real_plot, imaginary_plot, nrows = 1)
 layout(combined_plot, scene = list(aspectmode = "cube"))
+
+
+xml_data <- read_xml("peaklist.xml")
+
+peak_elements <- xml_find_all(xml_data, "//Peak1D")
+
+f1_values <- as.numeric(xml_attr(peak_elements, "F1"))
+intensity_values <- as.numeric(xml_attr(peak_elements, "intensity"))
+type_values <- as.numeric(xml_attr(peak_elements, "type"))
+
+df <- data.frame(F1 = f1_values, intensity = intensity_values, type = type_values)
+print(df)
+
+p <- ggplot(df, aes(F1, intensity, col = type))+
+  geom_point(pch = "")+
+  geom_segment(aes(xend=F1, yend=0))
+print(p)
+
+plot(df$F1, df$intensity, xlab = "F1", ylab = "Intensity")
+
+identify(df$F1, df$intensity, labels = df$F1)
 
