@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jack Macdonald">
-<meta name="dcterms.date" content="2023-10-10">
+<meta name="dcterms.date" content="2023-10-30">
 
-<title>Jack Macdonald - Assignment Four</title>
+<title>Jack Macdonald - Assignment Five</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,7 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Assignment Four</h1>
+      <h1 class="title">Assignment Five</h1>
                                 <div class="quarto-categories">
                 <div class="quarto-category">data methods</div>
                 <div class="quarto-category">assignment</div>
@@ -169,7 +169,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">October 10, 2023</p>
+        <p class="date">October 30, 2023</p>
       </div>
     </div>
     
@@ -188,98 +188,143 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>1) YouTubenews01.R</p>
+<p>1) rvest01</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tuber)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringi)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wordcloud)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">yt_oauth</span>(<span class="st">"189833128111-e7fqqklvjpfenbpr553uqv4g3oqog6mp.apps.googleusercontent.com"</span>,<span class="st">"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"</span>, <span class="at">token =</span> <span class="st">""</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>yyt_israelprotest <span class="ot">=</span> <span class="fu">yt_search</span>(<span class="at">term =</span> <span class="st">"Israel protest"</span>)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>videocat_us<span class="ot">=</span> <span class="fu">list_videocats</span>(<span class="fu">c</span>(<span class="at">region_code =</span> <span class="st">"us"</span>))</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>mostpop <span class="ot">=</span> <span class="fu">list_videos</span>()</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>mostpop_us <span class="ot">=</span> <span class="fu">list_videos</span>(<span class="at">video_category_id =</span> <span class="st">"25"</span>,   <span class="at">region_code =</span> <span class="st">"US"</span>, <span class="at">max_results =</span> <span class="dv">10</span>)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>nbcnews_stat <span class="ot">=</span> <span class="fu">get_channel_stats</span>(<span class="st">"UCeY0bbntWzzVIaj2z3QigXg"</span>)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>nbcnews_detail <span class="ot">=</span> <span class="fu">get_video_details</span>(<span class="at">video_id =</span> <span class="st">"to0YqKKRIWY"</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>curl<span class="sc">::</span><span class="fu">curl_version</span>()</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>httr<span class="sc">::</span><span class="fu">set_config</span>(httr<span class="sc">::</span><span class="fu">config</span>(<span class="at">http_version =</span> <span class="dv">0</span>)) <span class="co"># Fix curl issue</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>nbc_videos1 <span class="ot">=</span> <span class="fu">yt_search</span>(<span class="at">term=</span><span class="st">""</span>, <span class="at">type=</span><span class="st">"video"</span>, <span class="at">channel_id =</span> <span class="st">"UCeY0bbntWzzVIaj2z3QigXg"</span>)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>nbc_videos <span class="ot">=</span> nbc_videos1 <span class="sc">%&gt;%</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">date =</span> <span class="fu">as.Date</span>(publishedAt)) <span class="sc">%&gt;%</span></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">&gt;</span> <span class="st">"2022-11-27"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>samplecomment <span class="ot">=</span> <span class="fu">get_comment_threads</span>(<span class="fu">c</span>(<span class="at">video_id =</span> <span class="st">"to0YqKKRIWY"</span>), <span class="at">max_results =</span> <span class="dv">600</span>)</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>samplecomment2 <span class="ot">=</span> <span class="fu">get_all_comments</span>(<span class="fu">c</span>(<span class="at">video_id =</span> <span class="st">"to0YqKKRIWY"</span>), <span class="at">max_results =</span> <span class="dv">600</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">'https://en.wikipedia.org/wiki/List_of_countries_by_foreign-exchange_reserves'</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>wikiforreserve <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>foreignreserve <span class="ot">&lt;-</span> wikiforreserve <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="at">xpath=</span><span class="st">'//*[@id="mw-content-text"]/div/table[1]'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>()</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>fores <span class="ot">=</span> foreignreserve[[<span class="dv">1</span>]]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fores) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Rank"</span>, <span class="st">"Country"</span>, <span class="st">"Forexres"</span>, <span class="st">"Date"</span>, <span class="st">"Change"</span>, <span class="st">"Sources"</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(fores)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Rank"     "Country"  "Forexres" "Date"     "Change"   "Sources" </code></pre>
 </div>
-<p>2) Analysis</p>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(fores<span class="sc">$</span>Country, <span class="at">n=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "China"        "Japan"        "Switzerland"  "India"        "Russia"      
+ [6] "Taiwan"       "Saudi Arabia" "Hong Kong"    "South Korea"  "Brazil"      </code></pre>
+</div>
+</div>
+<p>2) rvest02</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textmodels)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quanteda.textplots)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"youtube.RData"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>sum_comment <span class="ot">=</span> samplecomment<span class="sc">$</span>textOriginal</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>toks <span class="ot">=</span> <span class="fu">tokens</span>(sum_comment)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>sumcomdfm <span class="ot">&lt;-</span> <span class="fu">dfm</span>(toks)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>sum_lsa <span class="ot">&lt;-</span> <span class="fu">textmodel_lsa</span>(sumcomdfm)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sum_lsa)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>url1 <span class="ot">=</span> <span class="st">"https://www.imdb.com/search/title/?release_date=2022-01-01,2023-01-01"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>imdb2022 <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url1)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>node <span class="ot">&lt;-</span> <span class="st">".ratingGroup--imdb-rating"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>rank_data_html <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(imdb2022,node)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">substr</span>(<span class="fu">html_text</span>(rank_data_html), <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>rank_data <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(result)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rank_data, <span class="at">n =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                Length Class     Mode   
-sk                  10 -none-    numeric
-docs             11000 -none-    numeric
-features          8550 -none-    numeric
-matrix_low_rank 940500 -none-    numeric
-data            940500 dgCMatrix S4     </code></pre>
+<pre><code> [1] 8.0 8.0 8.1 6.3 8.6 7.7 6.5 6.7 8.3 8.5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>title_data_html <span class="ot">&lt;-</span> <span class="fu">html_nodes</span>(imdb2022,<span class="st">'.ipc-title__text'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>title_data <span class="ot">&lt;-</span> <span class="fu">html_text</span>(title_data_html)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(title_data, <span class="at">n =</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "Advanced search"                      
+ [2] "1. Slow Horses"                       
+ [3] "2. The Gilded Age"                    
+ [4] "3. Reacher"                           
+ [5] "4. The Santa Clauses"                 
+ [6] "5. The Bear"                          
+ [7] "6. From"                              
+ [8] "7. X"                                 
+ [9] "8. Violent Night"                     
+[10] "9. Julia"                             
+[11] "10. House of the Dragon"              
+[12] "11. Talk to Me"                       
+[13] "12. The Batman"                       
+[14] "13. Everything Everywhere All at Once"
+[15] "14. Bosch: Legacy"                    
+[16] "15. Uncharted"                        
+[17] "16. Severance"                        
+[18] "17. 1923"                             
+[19] "18. Spirited"                         
+[20] "19. Wednesday"                        </code></pre>
 </div>
 </div>
-<p>3) Quanteda Attempt</p>
+<p>3) textmining1</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tube_dfm <span class="ot">&lt;-</span> <span class="fu">tokens</span>(sum_comment, <span class="at">remove_punct =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">dfm</span>()</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tube_dfm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easypackages)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">packages</span>(<span class="st">"XML"</span>,<span class="st">"wordcloud"</span>,<span class="st">"RColorBrewer"</span>,<span class="st">"NLP"</span>,<span class="st">"tm"</span>,<span class="st">"quanteda"</span>, <span class="at">prompt =</span> T)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>mlkLocation <span class="ot">&lt;-</span><span class="fu">URLencode</span>(<span class="st">"http://www.historyplace.com/speeches/churchill-hour.htm"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>doc.html<span class="ot">&lt;-</span> <span class="fu">htmlTreeParse</span>(mlkLocation, <span class="at">useInternal=</span><span class="cn">TRUE</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>mlk <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">xpathApply</span>(doc.html, <span class="st">'//p'</span>, xmlValue))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>words.vec <span class="ot">&lt;-</span> <span class="fu">VectorSource</span>(mlk)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>words.corpus <span class="ot">&lt;-</span> <span class="fu">Corpus</span>(words.vec)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>words.corpus <span class="ot">&lt;-</span> <span class="fu">tm_map</span>(words.corpus, <span class="fu">content_transformer</span>(tolower))</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>words.corpus <span class="ot">&lt;-</span> <span class="fu">tm_map</span>(words.corpus, removePunctuation)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>words.corpus <span class="ot">&lt;-</span> <span class="fu">tm_map</span>(words.corpus, removeNumbers)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>words.corpus <span class="ot">&lt;-</span> <span class="fu">tm_map</span>(words.corpus, removeWords, <span class="fu">stopwords</span>(<span class="st">"english"</span>))</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>tdm <span class="ot">&lt;-</span> <span class="fu">TermDocumentMatrix</span>(words.corpus)</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="fu">inspect</span>(tdm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Document-feature matrix of: 6 documents, 842 features (99.58% sparse) and 0 docvars.
-       features
-docs    wow yes lens cape the name fuentes does not sound
-  text1   1   0    0    0   0    0       0    0   0     0
-  text2   0   1    0    0   0    0       0    0   0     0
-  text3   0   1    0    0   0    0       0    0   0     0
-  text4   0   0    1    1   0    0       0    0   0     0
-  text5   0   0    0    0   1    1       1    1   1     1
-  text6   0   0    0    0   0    0       0    0   0     0
-[ reached max_nfeat ... 832 more features ]</code></pre>
+<pre><code>&lt;&lt;TermDocumentMatrix (terms: 1179, documents: 39)&gt;&gt;
+Non-/sparse entries: 1952/44029
+Sparsity           : 96%
+Maximal term length: 15
+Weighting          : term frequency (tf)
+Sample             :
+         Docs
+Terms     11 14 16 17 18 20 22 25 30 9
+  air      0  0  0  1  0 13  3  0  0 0
+  battle   0  0  1  0  0  0  3  0  0 2
+  british  0  0  1  0  0  1  0  0  1 3
+  force    0  2  0  1  0  4  3  0  0 1
+  france   0  1  0  0  0  1  2  0  3 2
+  french   0  0  0  0  0  0  1  0  7 6
+  great    0  0  0  4  0  3  3  1  1 0
+  large    0  3  0  3  2  0  0  0  0 0
+  upon     0  0  0  1  0  0  0  3  1 1
+  war      1  0  2  2  1  0  1  2  1 0</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tag_dfm <span class="ot">&lt;-</span> <span class="fu">dfm_select</span>(tube_dfm, <span class="at">pattern =</span> <span class="st">"#*"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>toptag <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">topfeatures</span>(tag_dfm, <span class="dv">50</span>))</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(toptag, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(tdm)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>wordCounts <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(m)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>wordCounts <span class="ot">&lt;-</span> <span class="fu">sort</span>(wordCounts, <span class="at">decreasing=</span><span class="cn">TRUE</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(wordCounts)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "#defund"</code></pre>
+<pre><code>   war    air france  great french   upon 
+    24     23     20     20     19     16 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tag_fcm <span class="ot">&lt;-</span> <span class="fu">fcm</span>(tag_dfm)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(tag_fcm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Feature co-occurrence matrix of: 1 by 1 feature.
-         features
-features  #defund
-  #defund       0</code></pre>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>cloudFrame<span class="ot">&lt;-</span><span class="fu">data.frame</span>(<span class="at">word=</span><span class="fu">names</span>(wordCounts),<span class="at">freq=</span>wordCounts)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(cloudFrame<span class="sc">$</span>word,cloudFrame<span class="sc">$</span>freq)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/text-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>topgat_fcm <span class="ot">&lt;-</span> <span class="fu">fcm_select</span>(tag_fcm, <span class="at">pattern =</span> toptag)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#textplot_network(topgat_fcm, min_freq = 50, edge_alpha = 0.8, edge_size = 5)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Quanteda fails here because it does not find enough similarity in the comments to create connections. The errors states that there need to have co-occurrences higher than the threshold. This is because it fails to find co-occurrences greater than zero.</p>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wordcloud</span>(<span class="fu">names</span>(wordCounts),wordCounts, <span class="at">min.freq=</span><span class="dv">3</span>,<span class="at">random.order=</span><span class="cn">FALSE</span>, <span class="at">max.words=</span><span class="dv">500</span>,<span class="at">scale=</span><span class="fu">c</span>(<span class="dv">3</span>,.<span class="dv">5</span>), <span class="at">rot.per=</span><span class="fl">0.35</span>,<span class="at">colors=</span><span class="fu">brewer.pal</span>(<span class="dv">8</span>,<span class="st">"Dark2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/text-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 
